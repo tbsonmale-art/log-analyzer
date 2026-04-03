@@ -1,0 +1,11 @@
+com\example\threatshield\model\LogEvent.class
+com\example\threatshield\detector\MultipleIPLoginDetector.class
+com\example\threatshield\alert\Alert.class
+com\example\threatshield\detector\AccountCreationDetector.class
+com\example\threatshield\controller\LogController.class
+com\example\threatshield\ThreatShieldApplication.class
+com\example\threatshield\detector\DetectionEngine.class
+com\example\threatshield\detector\BruteForceDetector.class
+com\example\threatshield\parser\XmlLogParser.class
+com\example\threatshield\service\ThreatShieldService.class
+com\example\threatshield\detector\SuspiciousLoginDetector.class
