@@ -3,11 +3,12 @@ package com.example.threatshield.parser;
 import com.example.threatshield.model.LogEvent;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 public class XmlLogParser {
-    public static List<LogEvent> parse(String path) {
+
+    public static List<LogEvent> parse(InputStream inputStream) {
         List<LogEvent> list = new ArrayList<>();
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -16,13 +17,15 @@ public class XmlLogParser {
             dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             dbf.setXIncludeAware(false);
             dbf.setExpandEntityReferences(false);
-            Document doc = dbf.newDocumentBuilder().parse(new File(path));
+
+            Document doc = dbf.newDocumentBuilder().parse(inputStream);
             NodeList n = doc.getElementsByTagName("Event");
+
             for (int i = 0; i < n.getLength(); i++) {
                 Element e = (Element) n.item(i);
                 int id = Integer.parseInt(e.getElementsByTagName("EventID").item(0).getTextContent());
-                String time = e.getElementsByTagName("TimeCreated").item(0).getAttributes().getNamedItem("SystemTime").getTextContent();
-
+                String time = e.getElementsByTagName("TimeCreated").item(0)
+                        .getAttributes().getNamedItem("SystemTime").getTextContent();
                 String user = "Unknown", ip = "Unknown";
                 NodeList d = e.getElementsByTagName("Data");
                 for (int j = 0; j < d.getLength(); j++) {

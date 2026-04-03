@@ -143,15 +143,8 @@
 		}
 
 		@keyframes pulse {
-
-			0%,
-			100% {
-				opacity: 1;
-			}
-
-			50% {
-				opacity: 0.4;
-			}
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.4; }
 		}
 
 		/* ── MAIN LAYOUT ── */
@@ -226,33 +219,122 @@
 			pointer-events: none;
 		}
 
-		.input-wrapper {
+		/* ── FILE UPLOAD DROP ZONE ── */
+		.drop-zone {
+			background: var(--bg-input);
+			border: 2px dashed var(--border);
+			border-radius: 10px;
+			padding: 2.5rem 1.5rem;
+			text-align: center;
+			cursor: pointer;
+			transition: all 0.25s ease;
 			position: relative;
+			overflow: hidden;
 		}
 
-		.path-input {
-			background: var(--bg-input) !important;
-			border: 1px solid var(--border) !important;
-			border-right: none !important;
-			color: var(--accent) !important;
-			font-family: var(--font-mono) !important;
-			font-size: 0.9rem !important;
-			padding: 0.85rem 1.2rem !important;
-			border-radius: 8px 0 0 8px !important;
-			transition: border-color 0.2s, box-shadow 0.2s;
+		.drop-zone:hover,
+		.drop-zone.dragover {
+			border-color: var(--accent);
+			background: rgba(0, 255, 224, 0.04);
+			box-shadow: 0 0 20px rgba(0, 255, 224, 0.08);
+		}
+
+		.drop-zone.has-file {
+			border-color: var(--low);
+			border-style: solid;
+			background: rgba(48, 209, 88, 0.04);
+		}
+
+		.drop-zone.has-file:hover {
+			border-color: var(--accent);
+			background: rgba(0, 255, 224, 0.04);
+			box-shadow: 0 0 20px rgba(0, 255, 224, 0.08);
+		}
+
+		#fileInput {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			cursor: pointer;
+			width: 100%;
+			height: 100%;
+		}
+
+		.drop-icon {
+			font-size: 2.2rem;
+			color: var(--text-muted);
+			margin-bottom: 0.75rem;
+			display: block;
+			transition: color 0.2s;
+		}
+
+		.drop-zone:hover .drop-icon,
+		.drop-zone.dragover .drop-icon {
+			color: var(--accent);
+		}
+
+		.drop-zone.has-file .drop-icon {
+			color: var(--low);
+		}
+
+		.drop-title {
+			font-family: var(--font-display);
+			font-size: 1rem;
+			font-weight: 600;
+			color: var(--text-primary);
 			letter-spacing: 1px;
+			margin-bottom: 0.25rem;
 		}
 
-		.path-input::placeholder {
-			color: var(--text-muted) !important;
+		.drop-sub {
+			font-family: var(--font-mono);
+			font-size: 0.72rem;
+			color: var(--text-muted);
+			letter-spacing: 2px;
 		}
 
-		.path-input:focus {
-			outline: none !important;
-			border-color: var(--accent) !important;
-			box-shadow: 0 0 0 3px rgba(0, 255, 224, 0.1) !important;
+		.file-info {
+			display: none;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			margin-top: 0.75rem;
+			padding: 0.5rem 1rem;
+			background: rgba(48, 209, 88, 0.08);
+			border: 1px solid rgba(48, 209, 88, 0.2);
+			border-radius: 6px;
+			font-family: var(--font-mono);
+			font-size: 0.78rem;
+			color: var(--low);
 		}
 
+		.file-info.visible {
+			display: flex;
+		}
+
+		.file-name-display {
+			max-width: 320px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.btn-clear-file {
+			background: none;
+			border: none;
+			color: var(--text-muted);
+			cursor: pointer;
+			font-size: 1rem;
+			padding: 0 2px;
+			line-height: 1;
+			transition: color 0.2s;
+		}
+
+		.btn-clear-file:hover {
+			color: var(--critical);
+		}
+
+		/* ── SCAN BUTTON (standalone) ── */
 		.btn-analyze {
 			background: linear-gradient(135deg, var(--accent2), var(--accent3)) !important;
 			border: none !important;
@@ -261,10 +343,12 @@
 			font-size: 1rem !important;
 			font-weight: 600 !important;
 			letter-spacing: 2px !important;
-			padding: 0.85rem 2rem !important;
-			border-radius: 0 8px 8px 0 !important;
+			padding: 0.85rem 2.5rem !important;
+			border-radius: 8px !important;
 			transition: all 0.2s;
 			text-transform: uppercase;
+			width: 100%;
+			margin-top: 1rem;
 		}
 
 		.btn-analyze:hover {
@@ -324,41 +408,14 @@
 			margin-top: 2px;
 		}
 
-		.stat-total .stat-icon {
-			background: rgba(0, 255, 224, 0.1);
-			color: var(--accent);
-		}
-
-		.stat-total .stat-value {
-			color: var(--accent);
-		}
-
-		.stat-critical .stat-icon {
-			background: rgba(255, 45, 85, 0.1);
-			color: var(--critical);
-		}
-
-		.stat-critical .stat-value {
-			color: var(--critical);
-		}
-
-		.stat-high .stat-icon {
-			background: rgba(255, 140, 0, 0.1);
-			color: var(--high);
-		}
-
-		.stat-high .stat-value {
-			color: var(--high);
-		}
-
-		.stat-medium .stat-icon {
-			background: rgba(255, 214, 10, 0.1);
-			color: var(--medium);
-		}
-
-		.stat-medium .stat-value {
-			color: var(--medium);
-		}
+		.stat-total .stat-icon { background: rgba(0, 255, 224, 0.1); color: var(--accent); }
+		.stat-total .stat-value { color: var(--accent); }
+		.stat-critical .stat-icon { background: rgba(255, 45, 85, 0.1); color: var(--critical); }
+		.stat-critical .stat-value { color: var(--critical); }
+		.stat-high .stat-icon { background: rgba(255, 140, 0, 0.1); color: var(--high); }
+		.stat-high .stat-value { color: var(--high); }
+		.stat-medium .stat-icon { background: rgba(255, 214, 10, 0.1); color: var(--medium); }
+		.stat-medium .stat-value { color: var(--medium); }
 
 		/* ── ALERTS TABLE ── */
 		.alerts-table-wrapper {
@@ -396,15 +453,8 @@
 		}
 
 		@keyframes rowIn {
-			from {
-				opacity: 0;
-				transform: translateX(-10px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateX(0);
-			}
+			from { opacity: 0; transform: translateX(-10px); }
+			to { opacity: 1; transform: translateX(0); }
 		}
 
 		.alerts-table tbody tr:hover {
@@ -443,30 +493,10 @@
 			text-transform: uppercase;
 		}
 
-		.badge-CRITICAL {
-			background: rgba(255, 45, 85, 0.15);
-			color: var(--critical);
-			border: 1px solid rgba(255, 45, 85, 0.3);
-			box-shadow: 0 0 8px rgba(255, 45, 85, 0.2);
-		}
-
-		.badge-HIGH {
-			background: rgba(255, 140, 0, 0.15);
-			color: var(--high);
-			border: 1px solid rgba(255, 140, 0, 0.3);
-		}
-
-		.badge-MEDIUM {
-			background: rgba(255, 214, 10, 0.12);
-			color: var(--medium);
-			border: 1px solid rgba(255, 214, 10, 0.3);
-		}
-
-		.badge-LOW {
-			background: rgba(48, 209, 88, 0.12);
-			color: var(--low);
-			border: 1px solid rgba(48, 209, 88, 0.3);
-		}
+		.badge-CRITICAL { background: rgba(255,45,85,0.15); color: var(--critical); border: 1px solid rgba(255,45,85,0.3); box-shadow: 0 0 8px rgba(255,45,85,0.2); }
+		.badge-HIGH { background: rgba(255,140,0,0.15); color: var(--high); border: 1px solid rgba(255,140,0,0.3); }
+		.badge-MEDIUM { background: rgba(255,214,10,0.12); color: var(--medium); border: 1px solid rgba(255,214,10,0.3); }
+		.badge-LOW { background: rgba(48,209,88,0.12); color: var(--low); border: 1px solid rgba(48,209,88,0.3); }
 
 		.badge-dot {
 			width: 6px;
@@ -522,11 +552,7 @@
 			margin: 0 auto 1rem;
 		}
 
-		@keyframes spin {
-			to {
-				transform: rotate(360deg);
-			}
-		}
+		@keyframes spin { to { transform: rotate(360deg); } }
 
 		.scan-text {
 			font-family: var(--font-mono);
@@ -536,11 +562,7 @@
 			animation: blink 1s steps(1) infinite;
 		}
 
-		@keyframes blink {
-			50% {
-				opacity: 0;
-			}
-		}
+		@keyframes blink { 50% { opacity: 0; } }
 
 		/* ── ERROR ALERT ── */
 		.error-box {
@@ -602,62 +624,24 @@
 			line-height: 1.8;
 		}
 
-		.terminal .log-line {
-			display: block;
-		}
-
-		.terminal .log-time {
-			color: var(--text-muted);
-		}
-
-		.terminal .log-ok {
-			color: var(--low);
-		}
-
-		.terminal .log-warn {
-			color: var(--medium);
-		}
-
-		.terminal .log-err {
-			color: var(--critical);
-		}
-
-		.terminal .log-info {
-			color: var(--accent2);
-		}
+		.terminal .log-line { display: block; }
+		.terminal .log-time { color: var(--text-muted); }
+		.terminal .log-ok { color: var(--low); }
+		.terminal .log-warn { color: var(--medium); }
+		.terminal .log-err { color: var(--critical); }
+		.terminal .log-info { color: var(--accent2); }
 
 		/* ── SCROLLBAR ── */
-		::-webkit-scrollbar {
-			width: 6px;
-			height: 6px;
-		}
-
-		::-webkit-scrollbar-track {
-			background: var(--bg-base);
-		}
-
-		::-webkit-scrollbar-thumb {
-			background: var(--border);
-			border-radius: 3px;
-		}
-
-		::-webkit-scrollbar-thumb:hover {
-			background: var(--accent2);
-		}
+		::-webkit-scrollbar { width: 6px; height: 6px; }
+		::-webkit-scrollbar-track { background: var(--bg-base); }
+		::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+		::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
 
 		/* ── RESPONSIVE ── */
 		@media (max-width: 768px) {
-			.topbar {
-				padding: 0 1rem;
-			}
-
-			.main-content {
-				padding: 1rem;
-			}
-
-			.brand-sub {
-				display: none;
-			}
+			.topbar { padding: 0 1rem; }
+			.main-content { padding: 1rem; }
+			.brand-sub { display: none; }
 		}
 	</style>
 </head>
@@ -694,16 +678,21 @@
 					<button class="ep-btn" onclick="setEndpoint('summary', this)">/summary</button>
 				</div>
 
-				<!-- Input Row -->
-				<div class="input-group">
-					<span class="input-group-text"
-						style="background:var(--bg-input);border:1px solid var(--border);border-right:none;color:var(--text-muted);font-family:var(--font-mono);font-size:0.8rem;">
-						<i class="bi bi-folder2-open me-2"></i>PATH
-					</span>
-					<input type="text" id="pathInput" class="form-control path-input"
-						placeholder="E:/test-logs/test-logs.xml" value="E:/test-logs/test-logs.xml" />
-					<button class="btn btn-analyze" id="analyzeBtn" onclick="runAnalysis()">
-						<i class="bi bi-search me-2"></i>SCAN
+				<!-- File Upload Drop Zone -->
+				<div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+					<input type="file" id="fileInput" accept=".xml,.log,.txt,.json,.csv" />
+					<i class="bi bi-cloud-upload drop-icon" id="dropIcon"></i>
+					<div class="drop-title" id="dropTitle">DROP LOG FILE HERE</div>
+					<div class="drop-sub" id="dropSub">OR CLICK TO BROWSE &nbsp;·&nbsp; XML, LOG, TXT, JSON, CSV</div>
+				</div>
+
+				<!-- Selected file info -->
+				<div class="file-info" id="fileInfo">
+					<i class="bi bi-file-earmark-text"></i>
+					<span class="file-name-display" id="fileNameDisplay">—</span>
+					<span style="color:var(--text-muted);font-size:0.7rem;" id="fileSizeDisplay"></span>
+					<button class="btn-clear-file" onclick="clearFile(event)" title="Remove file">
+						<i class="bi bi-x-circle"></i>
 					</button>
 				</div>
 
@@ -713,14 +702,16 @@
 					<span id="errorMsg">Error message here</span>
 				</div>
 
+				<!-- Scan Button -->
+				<button class="btn btn-analyze" id="analyzeBtn" onclick="runAnalysis()">
+					<i class="bi bi-search me-2"></i>SCAN FILE
+				</button>
+
 				<!-- Terminal Log -->
 				<div class="terminal mt-3" id="terminalLog">
-					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-info">Threat Shield
-							initialized.</span></span>
-					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-ok">Backend
-							connection ready on port 8080.</span></span>
-					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-info">Enter a file
-							path and press SCAN to begin.</span></span>
+					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-info">Threat Shield initialized.</span></span>
+					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-ok">Backend connection ready on port 8080.</span></span>
+					<span class="log-line"><span class="log-time">[SYSTEM] </span><span class="log-info">Upload a log file and press SCAN to begin.</span></span>
 				</div>
 			</div>
 
@@ -780,9 +771,7 @@
 					<div class="col-md-4">
 						<div class="panel panel-glow h-100">
 							<div class="section-label mb-1">// Severity Breakdown</div>
-							<div
-								style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">
-								Alert Distribution</div>
+							<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">Alert Distribution</div>
 							<div class="chart-container">
 								<canvas id="doughnutChart"></canvas>
 							</div>
@@ -793,9 +782,7 @@
 					<div class="col-md-8">
 						<div class="panel panel-glow h-100">
 							<div class="section-label mb-1">// Alert Types</div>
-							<div
-								style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">
-								Alerts by Category</div>
+							<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:1rem;">Alerts by Category</div>
 							<div class="chart-container">
 								<canvas id="barChart"></canvas>
 							</div>
@@ -809,8 +796,7 @@
 					<div class="d-flex justify-content-between align-items-center mb-3">
 						<div>
 							<div class="section-label">// Threat Intelligence</div>
-							<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;">Detected
-								Alerts</div>
+							<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;">Detected Alerts</div>
 						</div>
 						<button class="ep-btn" onclick="exportCSV()">
 							<i class="bi bi-download me-1"></i>Export CSV
@@ -827,8 +813,7 @@
 									<th>Category</th>
 								</tr>
 							</thead>
-							<tbody id="alertsTableBody">
-							</tbody>
+							<tbody id="alertsTableBody"></tbody>
 						</table>
 					</div>
 
@@ -852,6 +837,7 @@
 		let currentEndpoint = 'analyze';
 		let doughnutChart = null;
 		let barChart = null;
+		let selectedFile = null;
 
 		// ── Check server status ──
 		async function checkServer() {
@@ -886,22 +872,112 @@
 			terminal.scrollTop = terminal.scrollHeight;
 		}
 
+		// ── File size formatter ──
+		function formatBytes(bytes) {
+			if (bytes < 1024) return `${bytes} B`;
+			if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
+			return `${(bytes / 1048576).toFixed(1)} MB`;
+		}
+
+		// ── File input change ──
+		document.getElementById('fileInput').addEventListener('change', function(e) {
+			handleFile(e.target.files[0]);
+		});
+
+		function handleFile(file) {
+			if (!file) return;
+			selectedFile = file;
+
+			const dropZone = document.getElementById('dropZone');
+			const fileInfo = document.getElementById('fileInfo');
+			const dropIcon = document.getElementById('dropIcon');
+			const dropTitle = document.getElementById('dropTitle');
+			const dropSub = document.getElementById('dropSub');
+
+			// Update drop zone appearance
+			dropZone.classList.add('has-file');
+			dropIcon.className = 'bi bi-file-earmark-check drop-icon';
+			dropTitle.textContent = 'FILE SELECTED';
+			dropSub.textContent = 'CLICK TO CHANGE FILE';
+
+			// Show file info bar
+			document.getElementById('fileNameDisplay').textContent = file.name;
+			document.getElementById('fileSizeDisplay').textContent = formatBytes(file.size);
+			fileInfo.classList.add('visible');
+
+			hideError();
+			addLog('ok', `File selected: ${file.name} (${formatBytes(file.size)})`);
+		}
+
+		function clearFile(e) {
+			e.stopPropagation();
+			selectedFile = null;
+			document.getElementById('fileInput').value = '';
+
+			const dropZone = document.getElementById('dropZone');
+			const dropIcon = document.getElementById('dropIcon');
+			const dropTitle = document.getElementById('dropTitle');
+			const dropSub = document.getElementById('dropSub');
+
+			dropZone.classList.remove('has-file');
+			dropIcon.className = 'bi bi-cloud-upload drop-icon';
+			dropTitle.textContent = 'DROP LOG FILE HERE';
+			dropSub.textContent = 'OR CLICK TO BROWSE · XML, LOG, TXT, JSON, CSV';
+			document.getElementById('fileInfo').classList.remove('visible');
+
+			addLog('warn', 'File cleared.');
+		}
+
+		// ── Drag and drop ──
+		const dropZone = document.getElementById('dropZone');
+
+		dropZone.addEventListener('dragover', function(e) {
+			e.preventDefault();
+			this.classList.add('dragover');
+		});
+
+		dropZone.addEventListener('dragleave', function() {
+			this.classList.remove('dragover');
+		});
+
+		dropZone.addEventListener('drop', function(e) {
+			e.preventDefault();
+			this.classList.remove('dragover');
+			const file = e.dataTransfer.files[0];
+			if (file) {
+				handleFile(file);
+				// Sync with the file input for form compatibility
+				const dt = new DataTransfer();
+				dt.items.add(file);
+				document.getElementById('fileInput').files = dt.files;
+			}
+		});
+
 		// ── Main analysis ──
 		async function runAnalysis() {
-			const path = document.getElementById('pathInput').value.trim();
-			if (!path) {showError('Please enter a file path.'); return;}
+			if (!selectedFile) {
+				showError('Please upload a log file before scanning.');
+				return;
+			}
 
 			hideError();
 			showLoader(true);
 			document.getElementById('resultsSection').style.display = 'none';
 			document.getElementById('analyzeBtn').disabled = true;
 
-			addLog('info', `Scanning: ${path}`);
+			addLog('info', `Scanning: ${selectedFile.name}`);
 			addLog('info', `Endpoint: /${currentEndpoint}`);
 
 			try {
-				const url = `${API_BASE}/${currentEndpoint}?path=${encodeURIComponent(path)}`;
-				const res = await fetch(url);
+				const formData = new FormData();
+				formData.append('file', selectedFile);
+
+				const url = `${API_BASE}/${currentEndpoint}`;
+				const res = await fetch(url, {
+					method: 'POST',
+					body: formData
+				});
+
 				const data = await res.json();
 
 				if (!res.ok) {
@@ -930,13 +1006,11 @@
 			const counts = {CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0};
 			alerts.forEach(a => {const s = (a.severity || 'LOW').toUpperCase(); counts[s] = (counts[s] || 0) + 1;});
 
-			// Stats
 			document.getElementById('statTotal').textContent = alerts.length;
 			document.getElementById('statCritical').textContent = counts.CRITICAL;
 			document.getElementById('statHigh').textContent = counts.HIGH;
 			document.getElementById('statMedium').textContent = counts.MEDIUM;
 
-			// Table
 			const tbody = document.getElementById('alertsTableBody');
 			tbody.innerHTML = '';
 			document.getElementById('noAlertsMsg').style.display = alerts.length === 0 ? 'block' : 'none';
@@ -947,15 +1021,14 @@
 				const tr = document.createElement('tr');
 				tr.style.animationDelay = `${i * 60}ms`;
 				tr.innerHTML = `
-        <td class="row-num">${String(i + 1).padStart(2, '0')}</td>
-        <td class="alert-message">${escHtml(alert.message || '-')}</td>
-        <td><span class="badge-severity badge-${sev}"><span class="badge-dot"></span>${sev}</span></td>
-        <td style="font-size:0.78rem;color:var(--text-dim);font-family:var(--font-mono);">${cat}</td>
-      `;
+					<td class="row-num">${String(i + 1).padStart(2, '0')}</td>
+					<td class="alert-message">${escHtml(alert.message || '-')}</td>
+					<td><span class="badge-severity badge-${sev}"><span class="badge-dot"></span>${sev}</span></td>
+					<td style="font-size:0.78rem;color:var(--text-dim);font-family:var(--font-mono);">${cat}</td>
+				`;
 				tbody.appendChild(tr);
 			});
 
-			// Charts
 			renderDoughnut(counts);
 			renderBar(alerts);
 
@@ -1056,7 +1129,7 @@
 		// ── Export CSV ──
 		function exportCSV() {
 			const rows = [['#', 'Message', 'Severity', 'Category']];
-			document.querySelectorAll('#alertsTableBody tr').forEach((tr, i) => {
+			document.querySelectorAll('#alertsTableBody tr').forEach((tr) => {
 				const tds = tr.querySelectorAll('td');
 				rows.push([
 					tds[0]?.textContent.trim(),
@@ -1072,11 +1145,6 @@
 			a.click();
 			addLog('ok', 'Alerts exported to security-alerts.csv');
 		}
-
-		// ── Enter key support ──
-		document.getElementById('pathInput').addEventListener('keydown', e => {
-			if (e.key === 'Enter') runAnalysis();
-		});
 	</script>
 </body>
 
